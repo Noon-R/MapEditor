@@ -12,6 +12,7 @@
 #include "ezMap.h"
 
 SimDataT simdata; //SimDataT型構造体のデータを宣言
+extern WindowDataT window;
 extern MouseDataT mouse;
 extern KeyDataT keydata; //★修正★
 extern int time; //プログラムが起動したときの時間
@@ -76,9 +77,6 @@ void InitScene( void )
 	//////
 
 	///▼追加したオブジェクトの初期化
-	
-	simdata.handR.radius = 0.25;//◆04
-	simdata.handL.radius = 0.25;//◆04
 
 	setObjPos( &simdata.player, 0.0, 10.0, 0.0 );
 	setObjRot( &simdata.player, 0.0, -90.0, 0.0 );
@@ -89,21 +87,16 @@ void InitScene( void )
 	simdata.player.move = 0.0;
 	simdata.player.radius = 0.5;
 
-
-	//右手（ローカル座標）をプレイヤの子座標系とする
-	setObjLocal( &simdata.handR, &simdata.player ); //★
-	//PlayerにHandRをぶら下げる
-
-	//★左手も同様
-	setObjLocal( &simdata.handL, &simdata.player ); //★
-
-	//頭をプレイヤーの子座標系にする
-	setObjLocal( &simdata.head, &simdata.player );
-
 	simdata.active_camera = NULL;
+
+	simdata.pointer = ObjDataT();
+	simdata.pointer.pos.y = 0.25;
+	simdata.pointer.radius = 0.25;
+	setObjColor(&simdata.pointer,0.251,0.557,0.365);
 
 	CreateMyModels(); //★
 
+	
 
 	return;
 }
@@ -124,8 +117,28 @@ void UpdateScene(void)
 	simdata.viewing -= keydata.charKey['l'] ? 0.3 : 0;
 
 
+	simdata.pointer.pos.x = mouse.xAbs * simdata.viewing * window.aspect;
+	simdata.pointer.pos.z = mouse.yAbs * simdata.viewing;
+	simdata.pointer.pos.z -= 1.0;
+	simdata.pointer.pos.x += simdata.player.pos.x;
+	simdata.pointer.pos.z += simdata.player.pos.z;
 
+	simdata.pointer.state = mouse.left;
 
+	ObjDataT test;
+	copyObj(&simdata.pointer,&test);
+	moveLocalToWorld(&test);
+	printf("%f\n",test.pos.y);
+
+	ezMapDataT* data = ezMap_getMapData();
+
+	for (int i = 0; i < data->field_height * data->field_width; i++) {
+		if (isHitBox(&data->cellObjs[i], &simdata.pointer) && simdata.pointer.state != 0) {
+			setObjColor(&data->cellObjs[i], 1, 0, 0);
+			data->cells[i] = simdata.currentPaintNum;
+		}
+
+	}
 
 	return;
 }

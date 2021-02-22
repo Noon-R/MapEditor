@@ -42,7 +42,7 @@ void mouseClick( int button , int state, int x, int y )
 		mouse.yRel = mouse.dy = 0.0;
 		break;
       case GLUT_UP:
-		glutWarpPointer( ( mouse.xo + 1.0 ) * window.width / 2.0, ( mouse.yo + 1.0 ) * window.height / 2.0 );
+		//glutWarpPointer( ( mouse.xo + 1.0 ) * window.width / 2.0, ( mouse.yo + 1.0 ) * window.height / 2.0 );
 		_mouse( x, y );
 		mouse.xp = mouse.xo = mouse.xAbs;
         mouse.yp = mouse.yo = mouse.yAbs;
@@ -107,6 +107,7 @@ void mouseDrag( int x, int y )
  */
 void mouseMotion( int x, int y )
 {
+	_mouse(x, y);
 	mouse.x = (float)x/window.width  * 2.0 - 1.0; //normalize x position
 	mouse.y = (float)y/window.height * 2.0 - 1.0; //normalize y position
     //printf( "mouse motion: %d, %d\n", x, y );

@@ -4,6 +4,7 @@
 #include "platform.h"
 #include "calc.h"
 #include "object.h"
+#include <vector>
 
 #define N_Building 10
 
@@ -36,15 +37,16 @@ typedef struct {
     //////// ユーザ定義のシーンについてのデータをここにまとめる
 
 	ObjDataT player; /////◆プレイヤ（の足元★）をあらわすオブジェクト
+	ObjDataT head;
 
-	ObjDataT head;//★
-	ObjDataT body;
-	ObjDataT handL;//★
-	ObjDataT handR;//★
+	ObjDataT pointer;
 
 	ObjDataT *active_camera; //カメラのポインタ変数
 
 	float viewing = 20;
+	int currentPaintNum = 1;
+
+	std::vector<color_t> paintCols;
 
 	////////
 } SimDataT;

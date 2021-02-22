@@ -47,3 +47,5 @@ int * ezMap_setCellState(ezMapDataT * data, int i);
 
 ObjDataT* ezMap_getCellObjData(ezMapDataT *data, int n, int m);
 ObjDataT* ezMap_getCellObjData(ezMapDataT *data, int i);
+
+ezMapDataT* ezMap_getMapData();

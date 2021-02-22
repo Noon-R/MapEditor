@@ -100,6 +100,7 @@ void ezMap_draw(void(*drawFunc)(int, ObjDataT*))
 			y = -1.5;
 			glPushMatrix(); {
 				glTranslatef(x, y, z);
+				setObjPos(&map.cellObjs[i+j*map.field_width],x,0,z);
 				drawFunc(
 					ezMap_getCellState(&map, i, j),
 					ezMap_getCellObjData(&map, i, j));
@@ -179,4 +180,8 @@ ObjDataT * ezMap_getCellObjData(ezMapDataT * data, int i)
 {
 	return &data->cellObjs[i];
 
+}
+
+ezMapDataT * ezMap_getMapData() {
+	return &map;
 }
