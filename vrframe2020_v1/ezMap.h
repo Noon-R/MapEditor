@@ -6,7 +6,7 @@
 #define CELL_SIZE 1
 
 typedef struct {
-	
+
 	int field_width, field_height; //メイズフィールド内の縦横、升目の個数
 	std::vector<int> cells;
 	std::vector<ObjDataT> cellObjs;
@@ -31,8 +31,7 @@ void ezMap_init();
 
 void ezMap_dataInit(int n, int m);
 
-
-void ezMap_draw(void(*drawFunc)(int));
+void ezMap_draw(void(*drawFunc)(int, ObjDataT*));
 
 void ezMap_projectionDraw(int player_x, int player_z);
 
@@ -43,3 +42,4 @@ void ezMap_term();
 int ezMap_getCellState(ezMapDataT const * data, int n, int m);
 
 int * ezMap_setCellState(ezMapDataT * data, int n, int m);
+ObjDataT* ezMap_getCellObjData(ezMapDataT *data, int n, int m);

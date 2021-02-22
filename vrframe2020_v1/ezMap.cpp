@@ -7,7 +7,7 @@
 #include "calc.h"
 
 ezMapDataT map;
- 
+
 char rootPath[] = "mapData/";
 
 //メイズデータをロードする
@@ -23,11 +23,11 @@ void ezMap_load(char const *file)
 	//read M, N
 	fscanf(fp, "%d,%d", &n, &m);
 
-	ezMap_dataInit(n,m);
+	ezMap_dataInit(n, m);
 
 	for (int i = 0; i < map.field_height; i++) {
 		for (int j = 0; j < map.field_width; j++) {
-			fscanf(fp, "%d ", ezMap_setCellState( &map,i,j));
+			fscanf(fp, "%d ", ezMap_setCellState(&map, i, j));
 		}
 	}
 	fclose(fp);
@@ -73,7 +73,7 @@ void ezMap_init()
 	return;
 }
 
-void ezMap_dataInit(int n,int m) {
+void ezMap_dataInit(int n, int m) {
 	{
 		std::vector<int> swapCell;
 		std::vector<ObjDataT> swapObj;
@@ -84,11 +84,11 @@ void ezMap_dataInit(int n,int m) {
 
 	map.field_width  = n;
 	map.field_height = m;
-	map.cells.resize(n*m,0);
+	map.cells.resize(n*m, 0);
 	map.cellObjs.resize(n*m, ObjDataT());
 }
 
-void ezMap_draw(void (*drawFunc)(int) )
+void ezMap_draw(void(*drawFunc)(int, ObjDataT*))
 {
 	float range = map.field_width*1.1; //マップの一辺の長さ（マップの広さ）
 	int i, j; //ループ制御変数
@@ -100,7 +100,9 @@ void ezMap_draw(void (*drawFunc)(int) )
 			y = -1.5;
 			glPushMatrix(); {
 				glTranslatef(x, y, z);
-				drawFunc(ezMap_getCellState(&map, i, j));
+				drawFunc(
+					ezMap_getCellState(&map, i, j),
+					ezMap_getCellObjData(&map, i, j));
 			}
 			glPopMatrix();
 		}
@@ -121,7 +123,7 @@ void ezMap_projectionDraw(int player_x, int player_z) {
 		for (m = 0; m < map.field_width; m++) {
 			x = ((float)m + 0.5) * CELL_SIZE - xoffset;
 
-			if (ezMap_getCellState(&map,n,m) > 0) glColor3f(ezMap_getCellState(&map, n, m) * 0.125 , 0.0, 1.0 - 0.125 * ezMap_getCellState(&map, n, m));
+			if (ezMap_getCellState(&map, n, m) > 0) glColor3f(ezMap_getCellState(&map, n, m) * 0.125, 0.0, 1.0 - 0.125 * ezMap_getCellState(&map, n, m));
 			else glColor3f(0.0, 0.5, 1.0);
 
 			glPushMatrix();
@@ -151,10 +153,14 @@ void ezMap_term()
 }
 
 
-int ezMap_getCellState(ezMapDataT const *data,int n, int m) {
-	return data->cells[n+m * data->field_width];
+int ezMap_getCellState(ezMapDataT const *data, int n, int m) {
+	return data->cells[n + m * data->field_width];
 }
 
 int * ezMap_setCellState(ezMapDataT *data, int n, int m) {
-	return &data->cells[ n + m * data->field_width];
+	return &data->cells[n + m * data->field_width];
+}
+
+ObjDataT* ezMap_getCellObjData(ezMapDataT *data, int n, int m) {
+	return &data->cellObjs[n + m * data->field_width];
 }
