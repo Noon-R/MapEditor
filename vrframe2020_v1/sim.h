@@ -45,6 +45,9 @@ typedef struct {
 	int currentPaintNum = 1;
 
 	std::vector<color_t> paintCols;
+	color_t currentColor;
+
+	char fileName[32] = "";
 
 	ImGuiContext *uiContext;
 	

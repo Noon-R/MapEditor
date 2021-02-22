@@ -1,5 +1,5 @@
 #pragma once
 //¥F
 typedef struct {
-	float red, blue, green, alpha;
+	float red, green, blue, alpha;
 } color_t;

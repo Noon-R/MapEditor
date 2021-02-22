@@ -114,7 +114,10 @@ void UpdateScene(void)
 
 	for (int i = 0; i < data->field_height * data->field_width; i++) {
 		if (isHitBox(&data->cellObjs[i], &simdata.pointer) && simdata.pointer.state != 0) {
-			setObjColor(&data->cellObjs[i], 0.1, 0.3, 0.25);
+			setObjColor(&data->cellObjs[i], 
+				simdata.currentColor.red,
+				simdata.currentColor.green,
+				simdata.currentColor.blue);
 			data->cells[i] = simdata.currentPaintNum;
 		}
 

@@ -81,30 +81,25 @@ void DrawScene( void )
     return;
 }
 
+static bool show_demo_window = false;
 void DrawImGui() {
+
 
 	ImGui_ImplOpenGL2_NewFrame();
 	ImGui_ImplGLUT_NewFrame();
 
+	if (show_demo_window)
+		ImGui::ShowDemoWindow(&show_demo_window);
 
 	{
-		ImGui::Begin("Test Window");
+		ImGui::Begin("Controller");
 
-		ImGui::Text("Hello, world %d", 123);
-
-		if (ImGui::Button("OK")) {
-			printf("Button\n");
-		}
-
-		static char buf[256] = "aaa";
-		if (ImGui::InputText("string", buf, 256)) {
-			printf("InputText\n");
-		}
-
-		static float f = 0.0f;
-		if (ImGui::SliderFloat("float", &f, 0.0f, 1.0f)) {
-			printf("SliderFloat\n");
-		}
+		static float col[4] = {0.2, 0.35, 0.2,1.0};
+		ImGui::ColorEdit4("AddColor", col);
+		simdata.currentColor = { col[0],col[1],col[2],col[3] };
+		
+		ImGui::InputTextWithHint("input fileName", "enter text here", simdata.fileName, IM_ARRAYSIZE(simdata.fileName));
+	
 		ImGui::End();
 	}
 
