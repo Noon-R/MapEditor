@@ -11,8 +11,6 @@
 
 #include "ezMap.h"
 
-#include "imgui/imgui_impl_glut.h"
-#include "imgui/imgui_impl_opengl2.h"
 
 SimDataT simdata; //SimDataT型構造体のデータを宣言
 extern WindowDataT window;
