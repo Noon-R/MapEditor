@@ -7,6 +7,8 @@
 #include "common.h"
 #include "sim.h"
 
+#include "imgui/imgui_impl_glut.h"
+
 extern WindowDataT window;
 extern SimDataT simdata;
 
@@ -35,6 +37,7 @@ static void _charKey( unsigned char key, int x, int y, bool status )
 }
 void charKeyDown( unsigned char key, int x, int y )
 {
+	ImGui_ImplGLUT_KeyboardFunc(key,x,y);
 	_charKey( key, x, y, true );
 
 	//----------------------- begin user code
@@ -72,6 +75,7 @@ void charKeyDown( unsigned char key, int x, int y )
 }
 void charKeyUp( unsigned char key, int x, int y )
 {
+	ImGui_ImplGLUT_KeyboardUpFunc(key,x,y);
 	_charKey( key, x, y, false );
 
     //------------------- begin user code
@@ -87,6 +91,7 @@ void charKeyUp( unsigned char key, int x, int y )
  */
 static void _funcKey( int key, int x, int y, bool status )
 {
+	ImGui_ImplGLUT_SpecialFunc(key,x,y);
     keydata.x = (float)x/window.width  * 2.0 - 1.0; // mouse x position
     keydata.y = (float)y/window.height * 2.0 - 1.0; // mouse y position
 
@@ -147,6 +152,7 @@ static void _funcKey( int key, int x, int y, bool status )
 }
 void funcKeyDown( int key, int x, int y)
 {
+	ImGui_ImplGLUT_SpecialUpFunc(key,x,y);
 	_funcKey( key, x, y, true );
 	//-------------------- begin user code
     switch( key ){

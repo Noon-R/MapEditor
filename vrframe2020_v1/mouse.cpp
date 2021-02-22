@@ -7,6 +7,8 @@
 #include "common.h"
 #include "sim.h"
 
+#include "imgui/imgui_impl_glut.h"
+
 extern SimDataT simdata;
 extern WindowDataT window;
 
@@ -32,6 +34,7 @@ static void _mouse( int x, int y )
  *--------*/
 void mouseClick( int button , int state, int x, int y )
 {
+	ImGui_ImplGLUT_MouseFunc(button,state,x,y);
     //printf( "mouse click: %d, %d, %d, %d\n", button, state, x, y );
 	switch( state ){
 	  case GLUT_DOWN:
@@ -99,6 +102,7 @@ void mouseClick( int button , int state, int x, int y )
 void mouseDrag( int x, int y )
 {
     _mouse( x, y );
+	ImGui_ImplGLUT_MotionFunc(x,y);
     //printf( "mouse drag: %d, %d\n", x, y );
     return;
 }
@@ -108,6 +112,7 @@ void mouseDrag( int x, int y )
 void mouseMotion( int x, int y )
 {
 	_mouse(x, y);
+	ImGui_ImplGLUT_MotionFunc(x,y);
 	mouse.x = (float)x/window.width  * 2.0 - 1.0; //normalize x position
 	mouse.y = (float)y/window.height * 2.0 - 1.0; //normalize y position
     //printf( "mouse motion: %d, %d\n", x, y );

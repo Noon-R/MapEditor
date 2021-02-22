@@ -5,6 +5,8 @@
 #include "ezUtil.h"
 #include "sim.h"
 
+extern SimDataT simdata;
+
 void PostDraw(void)
 {
 	glDisable(GL_LIGHTING);
@@ -55,7 +57,7 @@ void DrawHUD()
 	sprintf(roll, "rot : %f", 1324);
 	*/
 
-	glColor3f(0.0, 0.0, 0.0); //ï∂éöêF
+	glColor3f(1.0, 1.0, 0.0); //ï∂éöêF
 
 	drawString(-1,-0.98,
 		GLUT_BITMAP_TIMES_ROMAN_24,
@@ -72,4 +74,7 @@ void DrawHUD()
 	drawString(0.91, 0.92,
 		GLUT_BITMAP_TIMES_ROMAN_24,
 		"( 1, 1)");
+
+
+	
 }

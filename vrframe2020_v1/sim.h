@@ -6,12 +6,10 @@
 #include "object.h"
 #include <vector>
 
-#define N_Building 10
+#include "imgui/imgui.h"
+#include "imgui/imgui_internal.h"
 
-#define NL_Building 20
-#define NR_Building 20
 
-#define N_particle 10
 
 // sim.cpp
 void InitScene( void );
@@ -48,6 +46,8 @@ typedef struct {
 
 	std::vector<color_t> paintCols;
 
+	ImGuiContext *uiContext;
+	
 	////////
 } SimDataT;
 

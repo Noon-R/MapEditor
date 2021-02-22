@@ -21,9 +21,7 @@ void CreateMyModels()
 {
 
 	//▼モデルファイル読み込み
-	//chicken = mqoCreateModel( "data/full_body_chicken.mqo", 0.1 );
-
-	sample = mqoCreateModel( "data/kumanomi.mqo", 0.001 );
+	//sample = mqoCreateModel( "data/kumanomi.mqo", 0.001 );
 
 }
 

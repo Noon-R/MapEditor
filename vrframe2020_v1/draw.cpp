@@ -8,6 +8,11 @@
 #include "common.h" //WindowDataT, MouseDataT, KeyDataT
 #include "ezMap.h"
 
+#include "imgui/imgui.h"
+#include "imgui/imgui_internal.h"
+#include "imgui/imgui_impl_glut.h"
+#include "imgui/imgui_impl_opengl2.h"
+
 extern WindowDataT window;
 extern SimDataT simdata;
 
@@ -70,5 +75,38 @@ void DrawScene( void )
 	}
 	glPopMatrix();
 
+	
+	
+
     return;
+}
+
+void DrawImGui() {
+
+	ImGui_ImplOpenGL2_NewFrame();
+	ImGui_ImplGLUT_NewFrame();
+
+
+	{
+		ImGui::Begin("Test Window");
+
+		ImGui::Text("Hello, world %d", 123);
+
+		if (ImGui::Button("OK")) {
+			printf("Button\n");
+		}
+
+		static char buf[256] = "aaa";
+		if (ImGui::InputText("string", buf, 256)) {
+			printf("InputText\n");
+		}
+
+		static float f = 0.0f;
+		if (ImGui::SliderFloat("float", &f, 0.0f, 1.0f)) {
+			printf("SliderFloat\n");
+		}
+		ImGui::End();
+	}
+
+	ImGui::Render();
 }

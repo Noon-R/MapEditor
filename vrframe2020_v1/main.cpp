@@ -8,6 +8,9 @@
 #include "sim.h"
 #include "config.h"
 
+#include "imgui/imgui_impl_glut.h"
+#include "imgui/imgui_impl_opengl2.h"
+
 //#include "PostDraw.h"
 /*
 const bool cylindrical = true; //◆シリンドリカルフラグ
@@ -62,10 +65,81 @@ void SpotLight( int light_id, float r, float g, float b, float att_half,
 void HeadLight( void );
 void Lighting( void );
 
+void DrawImGui();
+
 int time;
 
 inline float _blend( float k, float a, float b )
 { return ( k * a + ( 1.0 - k ) * b ); }
+
+
+// Our state
+static bool show_demo_window = true;
+static bool show_another_window = false;
+static ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
+
+void my_display_code()
+{
+	// 1. Show the big demo window (Most of the sample code is in ImGui::ShowDemoWindow()! You can browse its code to learn more about Dear ImGui!).
+	if (show_demo_window)
+		ImGui::ShowDemoWindow(&show_demo_window);
+
+	// 2. Show a simple window that we create ourselves. We use a Begin/End pair to created a named window.
+	{
+		static float f = 0.0f;
+		static int counter = 0;
+
+		ImGui::Begin("Hello, world!");                          // Create a window called "Hello, world!" and append into it.
+
+		ImGui::Text("This is some useful text.");               // Display some text (you can use a format strings too)
+		ImGui::Checkbox("Demo Window", &show_demo_window);      // Edit bools storing our window open/close state
+		ImGui::Checkbox("Another Window", &show_another_window);
+
+		ImGui::SliderFloat("float", &f, 0.0f, 1.0f);            // Edit 1 float using a slider from 0.0f to 1.0f
+		ImGui::ColorEdit3("clear color", (float*)&clear_color); // Edit 3 floats representing a color
+
+		if (ImGui::Button("Button"))                            // Buttons return true when clicked (most widgets return true when edited/activated)
+			counter++;
+		ImGui::SameLine();
+		ImGui::Text("counter = %d", counter);
+
+		ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
+		ImGui::End();
+	}
+
+	// 3. Show another simple window.
+	if (show_another_window)
+	{
+		ImGui::Begin("Another Window", &show_another_window);   // Pass a pointer to our bool variable (the window will have a closing button that will clear the bool when clicked)
+		ImGui::Text("Hello from another window!");
+		if (ImGui::Button("Close Me"))
+			show_another_window = false;
+		ImGui::End();
+	}
+}
+
+void glut_display_func()
+{
+	// Start the Dear ImGui frame
+	ImGui_ImplOpenGL2_NewFrame();
+	ImGui_ImplGLUT_NewFrame();
+
+	my_display_code();
+
+	// Rendering
+	ImGui::Render();
+	//-----------------------------------------------------
+
+	ImGuiIO& io = ImGui::GetIO();
+	glViewport(0, 0, (GLsizei)io.DisplaySize.x, (GLsizei)io.DisplaySize.y);
+	glClearColor(clear_color.x, clear_color.y, clear_color.z, clear_color.w);
+	glClear(GL_COLOR_BUFFER_BIT);
+	//glUseProgram(0); // You may want this if using this code in an OpenGL 3+ context where shaders may be bound, but prefer using the GL3+ code.
+	ImGui_ImplOpenGL2_RenderDrawData(ImGui::GetDrawData());
+
+	glutSwapBuffers();
+	glutPostRedisplay();
+}
 
 
 
@@ -172,36 +246,52 @@ void singleView( float d )
  *--------*/
 void display( void )
 {
+
+	DrawImGui();
+
+	ImGuiIO& io = ImGui::GetIO();
+	glViewport(0, 0, (GLsizei)io.DisplaySize.x, (GLsizei)io.DisplaySize.y);
+	//glViewport( 0, 0, window.width, window.height );
+
+
 	//▼背景色とフォグカラーをブレンド
-    glClearColor(
-		_blend( simdata.sky_color[3], simdata.sky_color[0], simdata.air_color[0] ),
-		_blend( simdata.sky_color[3], simdata.sky_color[1], simdata.air_color[1] ),
-		_blend( simdata.sky_color[3], simdata.sky_color[2], simdata.air_color[2] ),
-		1.0 );
-	glViewport( 0, 0, window.width, window.height );
-    glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
+	glClearColor(
+		_blend(simdata.sky_color[3], simdata.sky_color[0], simdata.air_color[0]),
+		_blend(simdata.sky_color[3], simdata.sky_color[1], simdata.air_color[1]),
+		_blend(simdata.sky_color[3], simdata.sky_color[2], simdata.air_color[2]),
+		1.0);
+	
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	
+	
+	
+
 
 	//PreDraw();
-    //-------- draw --------
-	glEnable( GL_DEPTH_TEST ); // ---- begin: 
-    glEnable( GL_LIGHTING );
+	//-------- draw --------
+	glEnable(GL_DEPTH_TEST); // ---- begin: 
+	glEnable(GL_LIGHTING);
 
-	if( cylindrical ){
-		cylindricalView( 0.0 );
+	if (cylindrical) {
+		cylindricalView(0.0);
 	}
-	else{
-		singleView( 0.0 );
+	else {
+		singleView(0.0);
 	}
 
 	glDisable(GL_LIGHTING);
 	glDisable(GL_DEPTH_TEST);
-
 	//Postdraw
 	glViewport(0, 0, window.width, window.height);
-	PostDraw();
 	
-	//-------- swapbuffers --------
-    glutSwapBuffers();
+	PostDraw();
+	ImGui_ImplOpenGL2_RenderDrawData(ImGui::GetDrawData());
+
+	
+
+	glutSwapBuffers();
+	//glutPostRedisplay();
+	
 
     return;
 }
@@ -210,6 +300,7 @@ void display( void )
  *--------*/
 void reshape( int width, int height )
 {
+	ImGui_ImplGLUT_ReshapeFunc(width, height);
 	window.width = width;
 	window.height = height;
 	window.aspect = (float)window.width/window.height;
@@ -231,7 +322,7 @@ void initWindow( char *winname )
 	
     //-------- config buffers
 	if( stereo ) glutInitDisplayMode( GLUT_RGBA | GLUT_DOUBLE | GLUT_DEPTH | GLUT_STEREO );
-	else         glutInitDisplayMode( GLUT_RGBA | GLUT_DOUBLE | GLUT_DEPTH );
+	else         glutInitDisplayMode( GLUT_RGBA | GLUT_DOUBLE | GLUT_DEPTH | GLUT_MULTISAMPLE);
 
     //-------- open window
 	window.title = winname;
@@ -265,6 +356,7 @@ void initWindow( char *winname )
  *--------*/
 int main( int argc, char *argv[] )
 {
+	
 	/// ウィンドウを準備
     glutInit( &argc, argv );
 
@@ -276,8 +368,19 @@ int main( int argc, char *argv[] )
 		glutDisplayFunc( Stereo );  // display callback function
 	}
 	else{
-		glutDisplayFunc( display );
+		glutDisplayFunc(display);
 	}
+	//-------------------------------------------------------------imgui----------------------------------------------------------
+	IMGUI_CHECKVERSION();
+	ImGui::CreateContext();
+	
+	// imgui init
+	ImGui::StyleColorsDark();
+
+	ImGui_ImplGLUT_Init();
+
+	ImGui_ImplOpenGL2_Init();
+	//-------------------------------------------------------------imgui----------------------------------------------------------
 
     glutIdleFunc( update );    // idle callback function
 	glutReshapeFunc( reshape ); // reshape callback function
@@ -293,19 +396,30 @@ int main( int argc, char *argv[] )
     glutMouseFunc( mouseClick );       // mouse click callback
 	glutPassiveMotionFunc( mouseMotion ); // passive motion callback
 	glutMotionFunc( mouseDrag ); // mouse drag callback	
+
 	
+
     printf( "[H]:Help\n" );     // indicate help instruction
 
-
-    InitScene(); //★状態の初期化
-
+	
+   InitScene(); //★状態の初期化
+	
 	time = glutGet( GLUT_ELAPSED_TIME );
 
 	printf( "//////// プログラムを終了するときには[Q]を押してください////////\n" );
 	printf( "\nでは、Enterキーを押すとプログラムがスタートします\n" );
 	getchar();
+	
+
+
     glutMainLoop(); // run main loop
 
+	ImGui_ImplOpenGL2_Shutdown();
+	ImGui_ImplGLUT_Shutdown();
+	ImGui::DestroyContext();
+
+
+	
     return 0;
 }
 /******************************************************************************

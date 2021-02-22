@@ -11,33 +11,15 @@
 
 #include "ezMap.h"
 
+#include "imgui/imgui_impl_glut.h"
+#include "imgui/imgui_impl_opengl2.h"
+
 SimDataT simdata; //SimDataT型構造体のデータを宣言
 extern WindowDataT window;
 extern MouseDataT mouse;
 extern KeyDataT keydata; //★修正★
 extern int time; //プログラムが起動したときの時間
-///////////////////////////////////////////////////////
-//トラッカーデバイスを有効にするフラグ
-//bool use_tracker = false; //有効にするときtrue
 
-ezTracker *tracker; //共有メモリ経由でトラッカーの情報を得るオブジェクト
-//トラッカーから受け取ったデータへのポインタ
-ezTrackDataT *trackBase; //基準マーカ
-ezTrackDataT *trackHead;
-ezTrackDataT *trackBody;
-ezTrackDataT *trackHandR;
-ezTrackDataT *trackHandL;
-ezTrackDataT *trackFootR;
-ezTrackDataT *trackFootL;
-//マーカが見えない場合などのダミーデータ
-ezTrackDataT localBase = { 0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 };
-ezTrackDataT localHead = { 0, 0.0, 1.5, 0.0, 0.0, 0.0, 0.0 };
-ezTrackDataT localBody = { 0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 };
-ezTrackDataT localHandR = { 0, 0.25, 1.25, -2.0, 0.0, 0.0, 0.0 };//★-2.0
-ezTrackDataT localHandL = { 0,-0.25, 1.25, -2.0, 0.0, 0.0, 0.0 };//★-2.0
-ezTrackDataT localFootR = { 0, 0.25, 0.0, -0.5, 0.0, 0.0, 0.0 };
-ezTrackDataT localFootL = { 0,-0.25, 0.0, -0.5, 0.0, 0.0, 0.0 };
-////////////////////////////////////////////////////////
 
 
 /*--------------------
@@ -59,10 +41,10 @@ static void copyTrackToObj( ezTrackDataT *src, ObjDataT *dst )
  *--------*/
 void InitScene( void )
 {
-
 	ezMap_load("tempmap.txt");
 	////// シーンデータの初期化
 	simdata.active_camera = &simdata.player;
+
 
 	simdata.clip_far = 200.0; //◆ファークリッププレーン
 	simdata.clip_near = 0.1;
@@ -78,20 +60,20 @@ void InitScene( void )
 
 	///▼追加したオブジェクトの初期化
 
-	setObjPos( &simdata.player, 0.0, 10.0, 0.0 );
-	setObjRot( &simdata.player, 0.0, -90.0, 0.0 );
-	setObjColor( &simdata.player, 0.0, 0.5, 1.0 );
+	setObjPos(&simdata.player, 0.0, 10.0, 0.0);
+	setObjRot(&simdata.player, 0.0, -90.0, 0.0);
+	setObjColor(&simdata.player, 0.0, 0.5, 1.0);
+
 	simdata.player.visible = true;
 	simdata.player.state = 0;
 	simdata.player.turn = 0.0;
 	simdata.player.move = 0.0;
 	simdata.player.radius = 0.5;
 
-	simdata.active_camera = NULL;
-
 	simdata.pointer = ObjDataT();
 	simdata.pointer.pos.y = 0.25;
 	simdata.pointer.radius = 0.25;
+	simdata.pointer.state = 0;
 	setObjColor(&simdata.pointer,0.251,0.557,0.365);
 
 	CreateMyModels(); //★
@@ -134,7 +116,7 @@ void UpdateScene(void)
 
 	for (int i = 0; i < data->field_height * data->field_width; i++) {
 		if (isHitBox(&data->cellObjs[i], &simdata.pointer) && simdata.pointer.state != 0) {
-			setObjColor(&data->cellObjs[i], 1, 0, 0);
+			setObjColor(&data->cellObjs[i], 0.1, 0.3, 0.25);
 			data->cells[i] = simdata.currentPaintNum;
 		}
 
