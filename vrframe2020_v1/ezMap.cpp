@@ -69,7 +69,7 @@ void ezMap_save(char const *file)
 //‚Ü‚¾ŽÀÛ‚Ì‰Šú‰»‚Ì“à—e‚Í–¢Šm’è
 void ezMap_init()
 {
-
+	ezMap_dataInit(1,1);
 	return;
 }
 
@@ -154,13 +154,29 @@ void ezMap_term()
 
 
 int ezMap_getCellState(ezMapDataT const *data, int n, int m) {
-	return data->cells[n + m * data->field_width];
+	return ezMap_getCellState(data, n + m * data->field_width);
+}
+
+int ezMap_getCellState(ezMapDataT const * data, int i)
+{
+	return data->cells[i];
 }
 
 int * ezMap_setCellState(ezMapDataT *data, int n, int m) {
-	return &data->cells[n + m * data->field_width];
+	return ezMap_setCellState(data, n + m * data->field_width);
+}
+
+int * ezMap_setCellState(ezMapDataT * data, int i)
+{
+	return &data->cells[i];
 }
 
 ObjDataT* ezMap_getCellObjData(ezMapDataT *data, int n, int m) {
-	return &data->cellObjs[n + m * data->field_width];
+	return ezMap_getCellObjData(data, n + m * data->field_width);
+}
+
+ObjDataT * ezMap_getCellObjData(ezMapDataT * data, int i)
+{
+	return &data->cellObjs[i];
+
 }
