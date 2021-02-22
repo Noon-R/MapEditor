@@ -80,7 +80,7 @@ void drawHandL( void )
 	glPopMatrix();
 }
 
-void drawMap(int a) {
+void drawMap(int a,ObjDataT* obj) {
 	if (a != 0) {
 		applyMaterialColor(1,0,0);
 	}

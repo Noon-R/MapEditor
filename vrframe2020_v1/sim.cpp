@@ -100,31 +100,7 @@ void InitScene( void )
 	//頭をプレイヤーの子座標系にする
 	setObjLocal( &simdata.head, &simdata.player );
 
-	//simdata.active_camera = &simdata.player;
 	simdata.active_camera = NULL;
-	//プレイヤオブジェクトのアドレスをカメラのポインタに紐付ける
-
-	setObjColor( &simdata.handR, 0.0, 1.0, 0.0 ); //右手グリーン
-	setObjColor( &simdata.handL, 1.0, 0.0, 0.0 ); //左手レッド
-
-	tracker = new ezTracker( use_tracker ); //VICON使うときはtrue
-	tracker->open( "VICON", false ); //識別名, Wフラグ(false:R/O)
-
-	trackHead = &localHead;
-	trackBody = &localBody;
-    trackHandR = &localHandR;
-	trackHandL = &localHandL;
-	trackBase = &localBase;
-	trackFootL = &localFootL;
-	trackFootR = &localFootR;
-
-	//★修正★UpdataSceneからコピー
-	copyTrackToObj( trackHead, &simdata.head );
-    copyTrackToObj( trackBody, &simdata.body );
-	copyTrackToObj( trackHandL, &simdata.handL );
-	copyTrackToObj( trackHandR, &simdata.handR );
-	copyTrackToObj( trackFootL, &simdata.footL );
-	copyTrackToObj( trackFootR, &simdata.footR );
 
 	CreateMyModels(); //★
 
@@ -138,40 +114,16 @@ static float headRoll;
 void UpdateScene(void)
 {
 	//////// データ更新 ////////
-	if (use_tracker) {
-		//トラッカーからのデータをゲット
-		tracker->read(); //共有メモリからデータを読み出す
-		trackHead = tracker->getTrackData("ShutterGlasses"); //VICONマーカの名前
-		trackBody = tracker->getTrackData("Chest");
-		trackHandR = tracker->getTrackData("TREE_A");
-		trackHandL = tracker->getTrackData("TREE_B");
-		trackHead = tracker->getTrackData("CAP");
-		trackBase = tracker->getTrackData("Candy");
-		trackFootR = tracker->getTrackData("RightFoot");
-		trackFootL = tracker->getTrackData("LeftFoot");
+	
+	simdata.player.pos.z -= keydata.charKey['w'] ? 0.3 : 0;
+	simdata.player.pos.z += keydata.charKey['s'] ? 0.3 : 0;
+	simdata.player.pos.x -= keydata.charKey['a'] ? 0.3 : 0;
+	simdata.player.pos.x += keydata.charKey['d'] ? 0.3 : 0;
 
-		copyTrackToObj(trackHead, &simdata.head);
-		copyTrackToObj(trackBody, &simdata.body);
-		copyTrackToObj(trackHandL, &simdata.handL);
-		copyTrackToObj(trackHandR, &simdata.handR);
-		copyTrackToObj(trackFootL, &simdata.footL);
-		copyTrackToObj(trackFootR, &simdata.footR);
+	simdata.viewing += keydata.charKey['k'] ? 0.3 : 0;
+	simdata.viewing -= keydata.charKey['l'] ? 0.3 : 0;
 
-		simdata.handL.pos.z -= 1.2;
-		simdata.handR.pos.z -= 1.2;
 
-		simdata.player.pos.x = simdata.head.pos.x * 2;
-
-	} else {
-		simdata.player.pos.z -= keydata.charKey['w'] ? 0.3 : 0;
-		simdata.player.pos.z += keydata.charKey['s'] ? 0.3 : 0;
-		simdata.player.pos.x -= keydata.charKey['a'] ? 0.3 : 0;
-		simdata.player.pos.x += keydata.charKey['d'] ? 0.3 : 0;
-		
-		simdata.viewing += keydata.charKey['k'] ? 0.3 : 0;
-		simdata.viewing -= keydata.charKey['l'] ? 0.3 : 0;
-
-	}
 
 
 	return;

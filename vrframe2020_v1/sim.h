@@ -41,8 +41,6 @@ typedef struct {
 	ObjDataT body;
 	ObjDataT handL;//★
 	ObjDataT handR;//★
-	ObjDataT footL;//もしかしたら低いから取れないかも
-	ObjDataT footR;
 
 	ObjDataT *active_camera; //カメラのポインタ変数
 
