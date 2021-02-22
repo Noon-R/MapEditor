@@ -1,0 +1,141 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="ソース ファイル">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="ヘッダー ファイル">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="リソース ファイル">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="ソース ファイル\ez">
+      <UniqueIdentifier>{7435b2ec-d812-4c3a-b8c5-41c16c45fcc8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\ez">
+      <UniqueIdentifier>{1950c7ab-2ffe-4cca-9f6d-1f3441a21ba9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\advanced">
+      <UniqueIdentifier>{3374a206-1f88-4388-bab4-085e65cd432c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\structs">
+      <UniqueIdentifier>{c209500e-bfa1-426d-bd29-af05b7f53b45}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="draw.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="keyboard.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="mouse.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="mymodel.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="projview.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="sim.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="ezTrack.cpp">
+      <Filter>ソース ファイル\ez</Filter>
+    </ClCompile>
+    <ClCompile Include="GLMetaseq.c">
+      <Filter>ソース ファイル\ez</Filter>
+    </ClCompile>
+    <ClCompile Include="ezUtil.cpp">
+      <Filter>ソース ファイル\ez</Filter>
+    </ClCompile>
+    <ClCompile Include="cylindrical.cpp">
+      <Filter>ソース ファイル\advanced</Filter>
+    </ClCompile>
+    <ClCompile Include="calc.cpp">
+      <Filter>ソース ファイル\ez</Filter>
+    </ClCompile>
+    <ClCompile Include="light.cpp">
+      <Filter>ソース ファイル\advanced</Filter>
+    </ClCompile>
+    <ClCompile Include="stereo.cpp">
+      <Filter>ソース ファイル\advanced</Filter>
+    </ClCompile>
+    <ClCompile Include="myShape.cpp">
+      <Filter>ソース ファイル\advanced</Filter>
+    </ClCompile>
+    <ClCompile Include="vector.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="PostDraw.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="ezMap.cpp">
+      <Filter>ソース ファイル\ez</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="mymodel.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="sim.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="ezTrack.h">
+      <Filter>ヘッダー ファイル\ez</Filter>
+    </ClInclude>
+    <ClInclude Include="ezUtil.h">
+      <Filter>ヘッダー ファイル\ez</Filter>
+    </ClInclude>
+    <ClInclude Include="GLMetaseq.h">
+      <Filter>ヘッダー ファイル\ez</Filter>
+    </ClInclude>
+    <ClInclude Include="igSharedMemoryT.h">
+      <Filter>ヘッダー ファイル\ez</Filter>
+    </ClInclude>
+    <ClInclude Include="calc.h">
+      <Filter>ヘッダー ファイル\ez</Filter>
+    </ClInclude>
+    <ClInclude Include="common.h">
+      <Filter>ヘッダー ファイル\ez</Filter>
+    </ClInclude>
+    <ClInclude Include="platform.h">
+      <Filter>ヘッダー ファイル\ez</Filter>
+    </ClInclude>
+    <ClInclude Include="config.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="myShape.h">
+      <Filter>ヘッダー ファイル\ez</Filter>
+    </ClInclude>
+    <ClInclude Include="PostDraw.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="vector.h">
+      <Filter>ヘッダー ファイル\structs</Filter>
+    </ClInclude>
+    <ClInclude Include="object.h">
+      <Filter>ヘッダー ファイル\structs</Filter>
+    </ClInclude>
+    <ClInclude Include="ezMap.h">
+      <Filter>ヘッダー ファイル\structs</Filter>
+    </ClInclude>
+    <ClInclude Include="euler.h">
+      <Filter>ヘッダー ファイル\structs</Filter>
+    </ClInclude>
+    <ClInclude Include="color.h">
+      <Filter>ヘッダー ファイル\structs</Filter>
+    </ClInclude>
+    <ClInclude Include="matrix.h">
+      <Filter>ヘッダー ファイル\structs</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
