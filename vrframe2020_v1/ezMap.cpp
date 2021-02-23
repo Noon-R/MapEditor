@@ -56,8 +56,12 @@ void ezMap_print()
 bool ezMap_save(char const *file)
 {
 	char fileName[32];
-	if (file == "") strcpy(fileName, "mapData.txt");
-	strcpy(fileName, file);
+	if (strcmp(file, "") == 0) {
+		strcpy(fileName, "mapData.txt");
+	}
+	else {
+		strcpy(fileName, file);
+	}
 
 	FILE *fp;
 	std::string path = rootPath + std::string(fileName);

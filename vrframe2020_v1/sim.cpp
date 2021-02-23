@@ -112,11 +112,6 @@ void UpdateScene(void)
 		simdata.pointer.state = mouse.left;
 	}
 
-	ObjDataT test;
-	copyObj(&simdata.pointer,&test);
-	moveLocalToWorld(&test);
-	printf("%f\n",test.pos.y);
-
 	ezMapDataT* data = ezMap_getMapData();
 
 	for (int i = 0; i < data->field_height * data->field_width; i++) {

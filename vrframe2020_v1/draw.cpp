@@ -117,8 +117,28 @@ void DrawImGui() {
 		
 
 		if (ImGui::Button("ExportMapData")) {
-			ezMap_save(simdata.fileName);
+			bool doneSave = ezMap_save(simdata.fileName);
+
+			if(doneSave)ImGui::OpenPopup("Complete Export");
+
 		}
+
+		if (ImGui::BeginPopupModal("Complete Export", NULL, ImGuiWindowFlags_AlwaysAutoResize))
+		{
+			isWindowFocused |= ImGui::IsWindowFocused();
+			if (strcmp(simdata.fileName,"")==0) {
+				ImGui::Text("\n Complete Export Mapdata!!\n \" mapData.txt  \" is in mapData\n\n");
+			}
+			else {
+				ImGui::Text("\n Complete Export Mapdata!!\n \" %s \" is in mapData\n\n", simdata.fileName);
+			}
+			ImGui::Separator();
+
+			if (ImGui::Button("OK", ImVec2(120, 0))) { ImGui::CloseCurrentPopup(); }
+
+			ImGui::EndPopup();
+		}
+
 
 		if (ImGui::Button("LoadMapData")) {
 			bool doneLoad = ezMap_load(simdata.fileName);
