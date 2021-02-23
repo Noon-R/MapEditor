@@ -102,9 +102,6 @@ void UpdateScene(void)
 		simdata.player.pos.x -= keydata.charKey['a'] ? 0.3 : 0;
 		simdata.player.pos.x += keydata.charKey['d'] ? 0.3 : 0;
 
-		simdata.viewing += keydata.charKey['k'] ? 0.3 : 0;
-		simdata.viewing -= keydata.charKey['l'] ? 0.3 : 0;
-
 
 		simdata.pointer.pos.x = mouse.xAbs * simdata.viewing * window.aspect;
 		simdata.pointer.pos.z = mouse.yAbs * simdata.viewing;

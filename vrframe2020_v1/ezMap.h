@@ -42,8 +42,8 @@ void ezMap_term();
 int ezMap_getCellState(ezMapDataT const * data, int n, int m);
 int ezMap_getCellState(ezMapDataT const * data, int i);
 
-int * ezMap_setCellState(ezMapDataT * data, int n, int m);
-int * ezMap_setCellState(ezMapDataT * data, int i);
+void ezMap_setCellState(ezMapDataT * data, int n, int m, int state);
+void ezMap_setCellState(ezMapDataT * data, int i, int state);
 
 ObjDataT* ezMap_getCellObjData(ezMapDataT *data, int n, int m);
 ObjDataT* ezMap_getCellObjData(ezMapDataT *data, int i);

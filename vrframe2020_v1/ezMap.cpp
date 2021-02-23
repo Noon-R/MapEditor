@@ -27,7 +27,9 @@ void ezMap_load(char const *file)
 
 	for (int i = 0; i < map.field_height; i++) {
 		for (int j = 0; j < map.field_width; j++) {
-			fscanf(fp, "%d ", ezMap_setCellState(&map, i, j));
+			int state = 0;
+			fscanf(fp, "%d ", &state);
+			ezMap_setCellState(&map, i, j, state);
 		}
 	}
 	fclose(fp);
@@ -167,13 +169,13 @@ int ezMap_getCellState(ezMapDataT const * data, int i)
 	return data->cells[i];
 }
 
-int * ezMap_setCellState(ezMapDataT *data, int n, int m) {
-	return ezMap_setCellState(data, n + m * data->field_width);
+void ezMap_setCellState(ezMapDataT *data, int n, int m, int state) {
+	ezMap_setCellState(data, n + m * data->field_width, state);
 }
 
-int * ezMap_setCellState(ezMapDataT * data, int i)
+void ezMap_setCellState(ezMapDataT * data, int i, int state)
 {
-	return &data->cells[i];
+	data->cells[i] = state;
 }
 
 ObjDataT* ezMap_getCellObjData(ezMapDataT *data, int n, int m) {

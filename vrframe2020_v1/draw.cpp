@@ -90,6 +90,7 @@ void DrawScene( void )
 
 void DrawImGui() {
 
+	bool isWindowFocused = false;
 
 	ImGui_ImplOpenGL2_NewFrame();
 	ImGui_ImplGLUT_NewFrame();
@@ -97,7 +98,7 @@ void DrawImGui() {
 	{
 		ImGui::Begin("Controller");
 		ImGui::SetNextWindowSize(ImVec2(550, 680), ImGuiCond_FirstUseEver);
-		simdata.isImGuiWIndowFocused = ImGui::IsWindowFocused();
+		isWindowFocused |= ImGui::IsWindowFocused();
 		
 		//Map‚Ìc‰¡‚ÌŒˆ’è
 		static int width = ezMap_getMapData()->field_width;
@@ -186,5 +187,16 @@ void DrawImGui() {
 		ImGui::End();
 	}
 
+	{
+		ImGui::Begin("CameraController");
+		ImGui::SetNextWindowSize(ImVec2(550, 680), ImGuiCond_FirstUseEver);
+
+		isWindowFocused |= ImGui::IsWindowFocused();
+
+		ImGui::DragFloat("Map Viewing Angle", &simdata.viewing, 0.1f);
+		ImGui::End();
+	}
 	ImGui::Render();
+
+	simdata.isImGuiWIndowFocused = isWindowFocused;
 }
