@@ -91,7 +91,8 @@ void ezMap_init()
 	return;
 }
 
-void ezMap_dataInit(int n, int m) {
+void ezMap_dataInit(ezMapDataT * data, int n, int m)
+{
 	{
 		std::vector<int> swapCell;
 		std::vector<ObjDataT> swapObj;
@@ -100,10 +101,42 @@ void ezMap_dataInit(int n, int m) {
 		map.cellObjs.swap(swapObj);
 	}
 
-	map.field_width  = n;
-	map.field_height = m;
-	map.cells.resize(n*m, 0);
-	map.cellObjs.resize(n*m, ObjDataT());
+	data->field_width = n;
+	data->field_height = m;
+	data->cells.resize(n*m, 0);
+	data->cellObjs.resize(n*m, ObjDataT());
+}
+
+void ezMap_dataInit(int n, int m) {
+	ezMap_dataInit(&map,n,m);
+}
+
+void ezMap_dataResize(ezMapDataT *data, int n, int m, bool isPreserve) {
+	ezMapDataT oldData = *data;
+
+	ezMap_dataInit(data, n, m);
+	if (isPreserve) {
+	
+		for (int x = 0; x < oldData.field_width; x++) {
+			if (x >= data->field_width) continue;
+			for (int y = 0; y < oldData.field_height; y++) {
+				if (y >= data->field_height) continue;
+
+				ezMap_setCellState(data, 
+					x,
+					y,
+					ezMap_getCellState(&oldData, x, y));
+				
+				*ezMap_getCellObjData(data, x,y) = *ezMap_getCellObjData(&oldData, x, y);
+
+			}
+		}
+	}
+}
+
+void ezMap_dataResize(int n, int m, bool isPreserve)
+{
+	ezMap_dataResize(&map,n,m,isPreserve);
 }
 
 void ezMap_draw(void(*drawFunc)(int, ObjDataT*))
@@ -176,13 +209,28 @@ int ezMap_getCellState(ezMapDataT const *data, int n, int m) {
 	return ezMap_getCellState(data, n + m * data->field_width);
 }
 
+int ezMap_getCellState(int n, int m)
+{
+	return ezMap_getCellState(&map, n + m * map.field_width);
+}
+
 int ezMap_getCellState(ezMapDataT const * data, int i)
 {
 	return data->cells[i];
 }
 
+int ezMap_getCellState(int i)
+{
+	return ezMap_getCellState(&map,i);
+}
+
 void ezMap_setCellState(ezMapDataT *data, int n, int m, int state) {
 	ezMap_setCellState(data, n + m * data->field_width, state);
+}
+
+void ezMap_setCellState(int n, int m, int state)
+{
+	ezMap_setCellState(&map, n,m, state);
 }
 
 void ezMap_setCellState(ezMapDataT * data, int i, int state)
@@ -190,14 +238,29 @@ void ezMap_setCellState(ezMapDataT * data, int i, int state)
 	data->cells[i] = state;
 }
 
+void ezMap_setCellState(int i, int state)
+{
+	ezMap_setCellState(&map,i,state);
+}
+
 ObjDataT* ezMap_getCellObjData(ezMapDataT *data, int n, int m) {
 	return ezMap_getCellObjData(data, n + m * data->field_width);
+}
+
+ObjDataT * ezMap_getCellObjData(int n, int m)
+{
+	return ezMap_getCellObjData(&map,n,m);
 }
 
 ObjDataT * ezMap_getCellObjData(ezMapDataT * data, int i)
 {
 	return &data->cellObjs[i];
 
+}
+
+ObjDataT * ezMap_getCellObjData(int i)
+{
+	return ezMap_getCellObjData(&map,i);
 }
 
 ezMapDataT * ezMap_getMapData() {

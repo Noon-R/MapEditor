@@ -103,14 +103,14 @@ void DrawImGui() {
 		isWindowFocused |= ImGui::IsWindowFocused();
 		
 		//Map‚Ìc‰¡‚ÌŒˆ’è
-		int width = ezMap_getMapData()->field_width;
-		int height = ezMap_getMapData()->field_height;
+		static int width = ezMap_getMapData()->field_width;
+		static int height = ezMap_getMapData()->field_height;
 
 		ImGui::DragInt("Map Width", &width, 1, 1, 256, "%d", ImGuiSliderFlags_AlwaysClamp);
 		ImGui::DragInt("Map Height", &height, 1, 1, 256, "%d", ImGuiSliderFlags_AlwaysClamp);
 		
 		if (ImGui::Button("UpdateMapSize")) {
-			ezMap_dataInit(width,height);
+			ezMap_dataResize(width,height, true);
 		}
 		
 		ImGui::InputTextWithHint("input fileName", "enter text here", simdata.fileName, IM_ARRAYSIZE(simdata.fileName));
@@ -145,7 +145,8 @@ void DrawImGui() {
 
 			if (!doneLoad) ImGui::OpenPopup("Failed Load File");
 
-			
+			width = ezMap_getMapData()->field_width;
+			height = ezMap_getMapData()->field_height;
 		}
 
 		ImVec2 center = ImGui::GetMainViewport()->GetCenter();

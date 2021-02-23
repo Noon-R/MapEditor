@@ -29,7 +29,11 @@ void ezMap_print();
 //‚Ü‚¾ÀÛ‚Ì‰Šú‰»‚Ì“à—e‚Í–¢Šm’è
 void ezMap_init();
 
+void ezMap_dataInit(ezMapDataT *data,int n, int m);
 void ezMap_dataInit(int n, int m);
+
+void ezMap_dataResize(ezMapDataT *data, int n, int m, bool isPreserve);
+void ezMap_dataResize(int n, int m, bool isPreserve);
 
 void ezMap_draw(void(*drawFunc)(int, ObjDataT*));
 
@@ -40,12 +44,18 @@ void ezMap_projectionDraw(int player_x, int player_z);
 void ezMap_term();
 
 int ezMap_getCellState(ezMapDataT const * data, int n, int m);
+int ezMap_getCellState(int n, int m);
 int ezMap_getCellState(ezMapDataT const * data, int i);
+int ezMap_getCellState(int i);
 
 void ezMap_setCellState(ezMapDataT * data, int n, int m, int state);
+void ezMap_setCellState(int n, int m, int state);
 void ezMap_setCellState(ezMapDataT * data, int i, int state);
+void ezMap_setCellState(int i, int state);
 
 ObjDataT* ezMap_getCellObjData(ezMapDataT *data, int n, int m);
+ObjDataT* ezMap_getCellObjData(int n, int m);
 ObjDataT* ezMap_getCellObjData(ezMapDataT *data, int i);
+ObjDataT* ezMap_getCellObjData( int i);
 
 ezMapDataT* ezMap_getMapData();
