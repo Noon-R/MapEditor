@@ -139,6 +139,22 @@ void ezMap_dataResize(int n, int m, bool isPreserve)
 	ezMap_dataResize(&map,n,m,isPreserve);
 }
 
+bool ezMap_castFromArray(ezMapDataT *mapData, int *data, int gridN)
+{
+	ezMap_dataInit(mapData,gridN, gridN);
+	for (int i = 0; i < gridN; i++) {
+		for (int j = 0; j < gridN; j++) {
+			ezMap_setCellState(mapData, i,j, data[i+ j*gridN]);
+		}
+	}
+	return true;
+}
+
+bool ezMap_castFromArray(int * data, int gridN)
+{
+	return ezMap_castFromArray(&map,data,gridN);
+}
+
 void ezMap_draw(void(*drawFunc)(int, ObjDataT*))
 {
 	float range = map.field_width*1.1; //マップの一辺の長さ（マップの広さ）

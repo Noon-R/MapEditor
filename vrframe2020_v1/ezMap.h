@@ -35,6 +35,9 @@ void ezMap_dataInit(int n, int m);
 void ezMap_dataResize(ezMapDataT *data, int n, int m, bool isPreserve);
 void ezMap_dataResize(int n, int m, bool isPreserve);
 
+bool ezMap_castFromArray(ezMapDataT *mapData, int *data, int gridN);
+bool ezMap_castFromArray(int *data, int gridN );
+
 void ezMap_draw(void(*drawFunc)(int, ObjDataT*));
 
 void ezMap_projectionDraw(int player_x, int player_z);
