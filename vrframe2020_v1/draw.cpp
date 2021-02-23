@@ -233,7 +233,7 @@ void DrawImGui() {
 
 	{
 		ImGui::Begin("CameraController");
-		ImGui::SetNextWindowSize(ImVec2(550, 680), ImGuiCond_FirstUseEver);
+		ImGui::SetNextWindowSize(ImVec2(900, 680), ImGuiCond_FirstUseEver);
 
 		isWindowFocused |= ImGui::IsWindowFocused();
 
