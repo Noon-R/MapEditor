@@ -45,7 +45,8 @@ typedef struct {
 	int currentPaintNum = 1;
 
 	std::vector<color_t> paintCols;
-	color_t currentColor;
+
+	bool isImGuiWIndowFocused = false;
 
 	char fileName[32] = "";
 

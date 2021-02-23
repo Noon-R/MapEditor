@@ -76,7 +76,15 @@ void InitScene( void )
 
 	CreateMyModels(); //Åö
 
-	
+	int initColsNum = 3;
+	color_t initCols[] = {
+		{ 1  , 1  , 1  , 1 } ,
+		{ 1  , 0.2, 0.2, 1 } ,
+		{ 0.2, 1  , 1  , 1 }
+	};		 
+	for (int i = 0; i < initColsNum; i++) {
+		simdata.paintCols.push_back(initCols[i]);
+	}
 
 	return;
 }
@@ -113,11 +121,14 @@ void UpdateScene(void)
 	ezMapDataT* data = ezMap_getMapData();
 
 	for (int i = 0; i < data->field_height * data->field_width; i++) {
-		if (isHitBox(&data->cellObjs[i], &simdata.pointer) && simdata.pointer.state != 0) {
+		if (isHitBox(&data->cellObjs[i], &simdata.pointer) && simdata.pointer.state != 0 && !simdata.isImGuiWIndowFocused) {
+
+			color_t currentColor = simdata.paintCols[simdata.currentPaintNum];
+
 			setObjColor(&data->cellObjs[i], 
-				simdata.currentColor.red,
-				simdata.currentColor.green,
-				simdata.currentColor.blue);
+					currentColor.red,
+					currentColor.green,
+					currentColor.blue);
 			data->cells[i] = simdata.currentPaintNum;
 		}
 

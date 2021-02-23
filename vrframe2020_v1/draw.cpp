@@ -81,7 +81,7 @@ void DrawScene( void )
     return;
 }
 
-static bool show_demo_window = false;
+static bool show_demo_window = true;
 void DrawImGui() {
 
 
@@ -93,13 +93,81 @@ void DrawImGui() {
 
 	{
 		ImGui::Begin("Controller");
+		ImGui::SetNextWindowSize(ImVec2(550, 680), ImGuiCond_FirstUseEver);
+		simdata.isImGuiWIndowFocused = ImGui::IsWindowFocused();
+		
+		//Map‚Ìc‰¡‚ÌŒˆ’è
+		static int width = ezMap_getMapData()->field_width;
+		static int height = ezMap_getMapData()->field_height;
 
-		static float col[4] = {0.2, 0.35, 0.2,1.0};
-		ImGui::ColorEdit4("AddColor", col);
-		simdata.currentColor = { col[0],col[1],col[2],col[3] };
+		ImGui::DragInt("Map Width", &width, 1, 1, 256, "%d", ImGuiSliderFlags_AlwaysClamp);
+		ImGui::DragInt("Map Height", &height, 1, 1, 256, "%d", ImGuiSliderFlags_AlwaysClamp);
+		
+		if (ImGui::Button("UpdateMapSize")) {
+			
+		}
 		
 		ImGui::InputTextWithHint("input fileName", "enter text here", simdata.fileName, IM_ARRAYSIZE(simdata.fileName));
-	
+
+		//-------------color & state ----------------
+		
+		color_t cuurentCol = simdata.paintCols[simdata.currentPaintNum];
+		float displayCol[4] = { cuurentCol.red, cuurentCol.green, cuurentCol.blue, cuurentCol.alpha };
+		ImGui::ColorEdit4("CurrentColor", displayCol, ImGuiColorEditFlags_NoInputs | ImGuiColorEditFlags_NoPicker);
+
+		if (ImGui::BeginTable("table_item_width", 3, ImGuiTableFlags_Borders  | ImGuiTableFlags_SizingFixedFit))
+		{
+			ImGui::TableSetupColumn("No.");
+			ImGui::TableSetupColumn("Color");
+			ImGui::TableSetupColumn("selectButton");
+			ImGui::TableHeadersRow();
+
+			for (int row = 0; row < simdata.paintCols.size(); row++)
+			{
+				ImGui::TableNextRow();
+				if (row == 0)
+				{
+					// Setup ItemWidth once (instead of setting up every time, which is also possible but less efficient)
+					ImGui::TableSetColumnIndex(0);
+					ImGui::PushItemWidth(ImGui::CalcTextSize("A").x * 3.0f); // Small
+					ImGui::TableSetColumnIndex(1);
+					ImGui::PushItemWidth(-ImGui::GetContentRegionAvail().x * 0.5f);
+					ImGui::TableSetColumnIndex(2);
+					ImGui::PushItemWidth(-FLT_MIN); // Right-aligned
+				}
+
+				// Draw our contents
+				static float dummy_f = 0.0f;
+				ImGui::PushID(row);
+
+				ImGui::TableSetColumnIndex(0);
+				ImGui::Text("%d", row, 0.0f, 1.0f);
+
+				ImGui::TableSetColumnIndex(1);
+				color_t col = simdata.paintCols[row];
+				float rowCol[4] = { col.red, col.green, col.blue, col.alpha };
+				ImGui::ColorEdit4("color", rowCol, ImGuiColorEditFlags_NoInputs | ImGuiColorEditFlags_NoLabel);
+				simdata.paintCols[row] = { rowCol[0], rowCol[1], rowCol[2], rowCol[3] };
+
+				ImGui::TableSetColumnIndex(2);
+				if (ImGui::Button("Select")) {
+					simdata.currentPaintNum = row;
+				}
+				ImGui::PopID();
+			}
+			ImGui::EndTable();
+
+
+			static float col[4] = { 0.2, 0.35, 0.2,1.0 };
+			ImGui::ColorEdit4("AddColor", col);
+
+			if (ImGui::Button("AddRow")) {
+				color_t addColor = { col[0],col[1],col[2],col[3] };
+				simdata.paintCols.push_back(addColor);
+
+			}
+
+		}
 		ImGui::End();
 	}
 
