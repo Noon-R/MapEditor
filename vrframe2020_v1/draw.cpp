@@ -134,7 +134,7 @@ void DrawImGui() {
 		if (ImGui::BeginPopupModal("Failed Load File", NULL, ImGuiWindowFlags_AlwaysAutoResize))
 		{
 			isWindowFocused |= ImGui::IsWindowFocused();
-			ImGui::Text("Can't Load \" %s \" File. Please Sure fileName and filePath \n\n", simdata.fileName);
+			ImGui::Text("Can't Load \" %s \" File. Please Confirm FileName and FilePath \n\n", simdata.fileName);
 			ImGui::Text("Make New Data : width->32, height->32\n\n");
 			ImGui::Separator();
 
