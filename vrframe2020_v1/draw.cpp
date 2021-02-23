@@ -54,7 +54,7 @@ void drawSolidSphere( void )
 void drawMap(int cellState,ObjDataT* obj) {
 	
 	color_t currentColor ;
-	currentColor = simdata.paintCols[ min( cellState, simdata.paintCols.size()-1)];
+	currentColor = simdata.paintCols[ min( cellState,  (int)(simdata.paintCols.size()-1))];
 	setObjColor(obj,
 		currentColor.red,
 		currentColor.green,
@@ -95,14 +95,16 @@ void DrawImGui() {
 	ImGui_ImplOpenGL2_NewFrame();
 	ImGui_ImplGLUT_NewFrame();
 
+	//ImGui::ShowDemoWindow();
+
 	{
 		ImGui::Begin("Controller");
 		ImGui::SetNextWindowSize(ImVec2(550, 680), ImGuiCond_FirstUseEver);
 		isWindowFocused |= ImGui::IsWindowFocused();
 		
 		//Map‚Ìc‰¡‚ÌŒˆ’è
-		static int width = ezMap_getMapData()->field_width;
-		static int height = ezMap_getMapData()->field_height;
+		int width = ezMap_getMapData()->field_width;
+		int height = ezMap_getMapData()->field_height;
 
 		ImGui::DragInt("Map Width", &width, 1, 1, 256, "%d", ImGuiSliderFlags_AlwaysClamp);
 		ImGui::DragInt("Map Height", &height, 1, 1, 256, "%d", ImGuiSliderFlags_AlwaysClamp);
@@ -119,14 +121,35 @@ void DrawImGui() {
 		}
 
 		if (ImGui::Button("LoadMapData")) {
-			ezMap_load(simdata.fileName);
+			bool doneLoad = ezMap_load(simdata.fileName);
 
+			if (!doneLoad) ImGui::OpenPopup("Failed Load File");
 
-			ezMapDataT* data = ezMap_getMapData();
+			
 		}
 
+		ImVec2 center = ImGui::GetMainViewport()->GetCenter();
+		ImGui::SetNextWindowPos(center, ImGuiCond_Appearing, ImVec2(0.5f, 0.5f));
+
+		if (ImGui::BeginPopupModal("Failed Load File", NULL, ImGuiWindowFlags_AlwaysAutoResize))
+		{
+			isWindowFocused |= ImGui::IsWindowFocused();
+			ImGui::Text("Can't Load \" %s \" File. Please Sure fileName and filePath \n\n", simdata.fileName);
+			ImGui::Text("Make New Data : width->32, height->32\n\n");
+			ImGui::Separator();
+
+			if (ImGui::Button("OK", ImVec2(120, 0))) { ImGui::CloseCurrentPopup(); }
+		
+			ImGui::EndPopup();
+		}
 		//-------------color & state ----------------
 		
+
+		ImGui::Text("\n");
+		ImGui::Separator();
+		ImGui::Text("\n");
+
+
 		color_t cuurentCol = simdata.paintCols[simdata.currentPaintNum];
 		float displayCol[4] = { cuurentCol.red, cuurentCol.green, cuurentCol.blue, cuurentCol.alpha };
 		ImGui::ColorEdit4("CurrentColor", displayCol, ImGuiColorEditFlags_NoInputs | ImGuiColorEditFlags_NoPicker);
@@ -138,7 +161,7 @@ void DrawImGui() {
 			ImGui::TableSetupColumn("selectButton");
 			ImGui::TableHeadersRow();
 
-			for (int row = 0; row < simdata.paintCols.size(); row++)
+			for (int row = 0; row < (int)simdata.paintCols.size(); row++)
 			{
 				ImGui::TableNextRow();
 				if (row == 0)
