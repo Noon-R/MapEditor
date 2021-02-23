@@ -57,6 +57,7 @@ void DrawHUD()
 	sprintf(roll, "rot : %f", 1324);
 	*/
 
+	/*
 	glColor3f(1.0, 1.0, 0.0); //ï∂éöêF
 
 	drawString(-1,-0.98,
@@ -75,6 +76,6 @@ void DrawHUD()
 		GLUT_BITMAP_TIMES_ROMAN_24,
 		"( 1, 1)");
 
-
+	*/
 	
 }

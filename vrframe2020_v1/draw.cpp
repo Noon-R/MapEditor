@@ -81,15 +81,11 @@ void DrawScene( void )
     return;
 }
 
-static bool show_demo_window = true;
 void DrawImGui() {
 
 
 	ImGui_ImplOpenGL2_NewFrame();
 	ImGui_ImplGLUT_NewFrame();
-
-	if (show_demo_window)
-		ImGui::ShowDemoWindow(&show_demo_window);
 
 	{
 		ImGui::Begin("Controller");
@@ -104,10 +100,13 @@ void DrawImGui() {
 		ImGui::DragInt("Map Height", &height, 1, 1, 256, "%d", ImGuiSliderFlags_AlwaysClamp);
 		
 		if (ImGui::Button("UpdateMapSize")) {
-			
+			ezMap_dataInit(width,height);
 		}
 		
 		ImGui::InputTextWithHint("input fileName", "enter text here", simdata.fileName, IM_ARRAYSIZE(simdata.fileName));
+		if (ImGui::Button("ExportMapData")) {
+			ezMap_save(simdata.fileName);
+		}
 
 		//-------------color & state ----------------
 		

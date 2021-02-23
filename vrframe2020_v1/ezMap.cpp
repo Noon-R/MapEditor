@@ -48,8 +48,12 @@ void ezMap_print()
 //メイズデータをセーブする
 void ezMap_save(char const *file)
 {
+	char fileName[32];
+	if (file == "") strcpy(fileName, "mapData.txt");
+	strcpy(fileName, file);
+
 	FILE *fp;
-	std::string path = rootPath + std::string(file);
+	std::string path = rootPath + std::string(fileName);
 	fp = fopen(path.c_str(), "w");
 	//read M, N
 	fprintf(fp, "%d,%d\n", map.field_width, map.field_height);
