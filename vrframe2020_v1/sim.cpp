@@ -96,22 +96,24 @@ void UpdateScene(void)
 {
 	//////// データ更新 ////////
 	
-	simdata.player.pos.z -= keydata.charKey['w'] ? 0.3 : 0;
-	simdata.player.pos.z += keydata.charKey['s'] ? 0.3 : 0;
-	simdata.player.pos.x -= keydata.charKey['a'] ? 0.3 : 0;
-	simdata.player.pos.x += keydata.charKey['d'] ? 0.3 : 0;
+	if (!simdata.isImGuiWIndowFocused) {
+		simdata.player.pos.z -= keydata.charKey['w'] ? 0.3 : 0;
+		simdata.player.pos.z += keydata.charKey['s'] ? 0.3 : 0;
+		simdata.player.pos.x -= keydata.charKey['a'] ? 0.3 : 0;
+		simdata.player.pos.x += keydata.charKey['d'] ? 0.3 : 0;
 
-	simdata.viewing += keydata.charKey['k'] ? 0.3 : 0;
-	simdata.viewing -= keydata.charKey['l'] ? 0.3 : 0;
+		simdata.viewing += keydata.charKey['k'] ? 0.3 : 0;
+		simdata.viewing -= keydata.charKey['l'] ? 0.3 : 0;
 
 
-	simdata.pointer.pos.x = mouse.xAbs * simdata.viewing * window.aspect;
-	simdata.pointer.pos.z = mouse.yAbs * simdata.viewing;
-	simdata.pointer.pos.z -= 1.0;
-	simdata.pointer.pos.x += simdata.player.pos.x;
-	simdata.pointer.pos.z += simdata.player.pos.z;
+		simdata.pointer.pos.x = mouse.xAbs * simdata.viewing * window.aspect;
+		simdata.pointer.pos.z = mouse.yAbs * simdata.viewing;
+		simdata.pointer.pos.z -= 1.0;
+		simdata.pointer.pos.x += simdata.player.pos.x;
+		simdata.pointer.pos.z += simdata.player.pos.z;
 
-	simdata.pointer.state = mouse.left;
+		simdata.pointer.state = mouse.left;
+	}
 
 	ObjDataT test;
 	copyObj(&simdata.pointer,&test);
