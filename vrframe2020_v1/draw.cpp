@@ -51,9 +51,16 @@ void drawSolidSphere( void )
 }
 
 
-void drawMap(int a,ObjDataT* obj) {
-	applyObjColor(obj);
+void drawMap(int cellState,ObjDataT* obj) {
+	
+	color_t currentColor ;
+	currentColor = simdata.paintCols[ min( cellState, simdata.paintCols.size()-1)];
+	setObjColor(obj,
+		currentColor.red,
+		currentColor.green,
+		currentColor.blue);
 
+	applyObjColor(obj);
 	drawSolidCube();
 }
 
@@ -104,8 +111,17 @@ void DrawImGui() {
 		}
 		
 		ImGui::InputTextWithHint("input fileName", "enter text here", simdata.fileName, IM_ARRAYSIZE(simdata.fileName));
+		
+
 		if (ImGui::Button("ExportMapData")) {
 			ezMap_save(simdata.fileName);
+		}
+
+		if (ImGui::Button("LoadMapData")) {
+			ezMap_load(simdata.fileName);
+
+
+			ezMapDataT* data = ezMap_getMapData();
 		}
 
 		//-------------color & state ----------------

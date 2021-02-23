@@ -39,7 +39,7 @@ static void copyTrackToObj( ezTrackDataT *src, ObjDataT *dst )
  *--------*/
 void InitScene( void )
 {
-	ezMap_load("tempmap.txt");
+	ezMap_dataInit(16,16);
 	////// シーンデータの初期化
 	simdata.active_camera = &simdata.player;
 
@@ -124,13 +124,6 @@ void UpdateScene(void)
 
 	for (int i = 0; i < data->field_height * data->field_width; i++) {
 		if (isHitBox(&data->cellObjs[i], &simdata.pointer) && simdata.pointer.state != 0 && !simdata.isImGuiWIndowFocused) {
-
-			color_t currentColor = simdata.paintCols[simdata.currentPaintNum];
-
-			setObjColor(&data->cellObjs[i], 
-					currentColor.red,
-					currentColor.green,
-					currentColor.blue);
 			data->cells[i] = simdata.currentPaintNum;
 		}
 
