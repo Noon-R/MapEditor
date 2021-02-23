@@ -15,10 +15,10 @@ typedef struct {
 
 //メイズデータをロードする
 //keyboardコールバック関数で、例えば[L]キーでデータをロードする
-void ezMap_load(char const *file);
+bool ezMap_load(char const *file);
 
 //メイズデータをセーブする
-void ezMap_save(char const *file);
+bool ezMap_save(char const *file);
 
 //ロードしたメイズデータをプリントで確認する
 void ezMap_print();

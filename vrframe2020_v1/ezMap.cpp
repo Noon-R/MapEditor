@@ -12,7 +12,7 @@ char rootPath[] = "mapData/";
 
 //メイズデータをロードする
 //keyboardコールバック関数で、例えば[L]キーでデータをロードする
-void ezMap_load(char const *file)
+bool ezMap_load(char const *file)
 {
 
 	FILE *fp;
@@ -20,6 +20,11 @@ void ezMap_load(char const *file)
 	int n, m;
 
 	fp = fopen(path.c_str(), "r");
+
+	if (fp == NULL) {
+		ezMap_dataInit(32, 32);
+		return false;
+	}
 	//read M, N
 	fscanf(fp, "%d,%d", &n, &m);
 
@@ -33,7 +38,7 @@ void ezMap_load(char const *file)
 		}
 	}
 	fclose(fp);
-	return;
+	return true;
 }
 
 void ezMap_print()
@@ -48,7 +53,7 @@ void ezMap_print()
 }
 
 //メイズデータをセーブする
-void ezMap_save(char const *file)
+bool ezMap_save(char const *file)
 {
 	char fileName[32];
 	if (file == "") strcpy(fileName, "mapData.txt");
@@ -57,6 +62,9 @@ void ezMap_save(char const *file)
 	FILE *fp;
 	std::string path = rootPath + std::string(fileName);
 	fp = fopen(path.c_str(), "w");
+
+	if (fp == NULL)return false;
+
 	//read M, N
 	fprintf(fp, "%d,%d\n", map.field_width, map.field_height);
 	for (int i = 0; i < map.field_height; i++) {
@@ -66,7 +74,7 @@ void ezMap_save(char const *file)
 		fprintf(fp, "\n");
 	}
 	fclose(fp);
-	return;
+	return true;
 }
 
 //メイズデータを初期化する
