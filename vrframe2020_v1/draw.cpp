@@ -54,7 +54,8 @@ void drawSolidSphere( void )
 void drawMap(int cellState,ObjDataT* obj) {
 	
 	color_t currentColor ;
-	currentColor = simdata.paintCols[ min( cellState,  (int)(simdata.paintCols.size()-1))];
+	currentColor = cellState < simdata.paintCols.size() ?  simdata.paintCols[cellState] : color_t(0,0,0);
+	
 	setObjColor(obj,
 		currentColor.red,
 		currentColor.green,
