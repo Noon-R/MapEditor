@@ -399,13 +399,13 @@ void TransformLocalToWorldX(TargetT *base, ObjDataT *local, ObjDataT *world)
 
 void LocalForward(ObjDataT * target, vector_t * forward)
 {
-	vector_t forWardDir = { 0,0,1 };
+	vector_t forWardDir = vector_t( 0,0,1 );
 	DirectionLocalToWorld(target, &forWardDir, forward);
 }
 
 void LocalUP(ObjDataT * target, vector_t * up)
 {
-	vector_t upDir = { 0,1,0 };
+	vector_t upDir = vector_t(0,1,0) ;
 	DirectionLocalToWorld(target, &upDir, up);
 }
 

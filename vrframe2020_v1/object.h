@@ -29,7 +29,7 @@ typedef struct _objdata_t {
 	_objdata_t() {
 		pos = vector_t(0, 0, 0);
 		prePos = vector_t(0,0,0);
-		rot = { 0,0,0 };
+		rot = euler_t();
 		state = 0;
 		visible = true;
 		

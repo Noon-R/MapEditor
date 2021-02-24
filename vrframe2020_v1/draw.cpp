@@ -222,7 +222,7 @@ void DrawImGui() {
 			ImGui::ColorEdit4("AddColor", col);
 
 			if (ImGui::Button("AddRow")) {
-				color_t addColor = { col[0],col[1],col[2],col[3] };
+				color_t addColor = color_t(col[0],col[1],col[2],col[3] );
 				simdata.paintCols.push_back(addColor);
 
 			}
