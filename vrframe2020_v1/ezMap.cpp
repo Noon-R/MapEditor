@@ -142,9 +142,9 @@ void ezMap_dataResize(int n, int m, bool isPreserve)
 bool ezMap_castFromArray(ezMapDataT *mapData, int *data, int gridN)
 {
 	ezMap_dataInit(mapData,gridN, gridN);
-	for (int i = 0; i < gridN; i++) {
-		for (int j = 0; j < gridN; j++) {
-			ezMap_setCellState(mapData, i,j, data[i+ j*gridN]);
+	for (int x = 0; x < gridN; x++) {
+		for (int y = 0; y < gridN; y++) {
+			ezMap_setCellState(mapData, x,y, data[y+ x*gridN]);
 		}
 	}
 	return true;
