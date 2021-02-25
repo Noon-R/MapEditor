@@ -193,10 +193,10 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <Image Include="..\..\..\..\..\OneDrives\OneDrive\NMoon\noon_moon_quad_256.ico">
+    <Image Include="icon\MapIcon.ico">
       <Filter>リソース ファイル</Filter>
     </Image>
-    <Image Include="icon\MapIcon.ico">
+    <Image Include="icon\noon_moon_quad_256.ico">
       <Filter>リソース ファイル</Filter>
     </Image>
   </ItemGroup>
