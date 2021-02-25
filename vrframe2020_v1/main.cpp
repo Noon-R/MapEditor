@@ -290,7 +290,7 @@ int main( int argc, char *argv[] )
 	/// ウィンドウを準備
     glutInit( &argc, argv );
 
-    initWindow( argv[0] );
+    initWindow( "MapEditor" );
 
 	//-------- basic callbacks　基本的なコールバック関数の設定
 
