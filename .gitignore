@@ -21,8 +21,11 @@ bld/
 [Oo]bj/
 [Ll]og/
 
-/**/[Dd]ebug/
+*/[Dd]ebug/
 ! [Dd]ebug/glut32.dll
+
+*.exe
+
 
 # Visual Studio 2015 cache/options directory
 .vs/
