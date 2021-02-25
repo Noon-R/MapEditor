@@ -42,6 +42,10 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <IncludePath>.\;$(IncludePath)</IncludePath>
+    <TargetName>$(SolutionName)</TargetName>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <TargetName>$(SolutionName)</TargetName>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -117,8 +121,16 @@
     <ClInclude Include="object.h" />
     <ClInclude Include="platform.h" />
     <ClInclude Include="PostDraw.h" />
+    <ClInclude Include="resource.h" />
     <ClInclude Include="sim.h" />
     <ClInclude Include="vector.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="..\..\..\..\..\OneDrives\OneDrive\NMoon\noon_moon_quad_256.ico" />
+    <Image Include="icon\MapIcon.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="vrframe.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

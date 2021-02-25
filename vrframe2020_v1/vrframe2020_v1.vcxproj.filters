@@ -188,5 +188,21 @@
     <ClInclude Include="imgui\imgui_impl_opengl2.h">
       <Filter>ヘッダー ファイル\imgui</Filter>
     </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="..\..\..\..\..\OneDrives\OneDrive\NMoon\noon_moon_quad_256.ico">
+      <Filter>リソース ファイル</Filter>
+    </Image>
+    <Image Include="icon\MapIcon.ico">
+      <Filter>リソース ファイル</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="vrframe.rc">
+      <Filter>リソース ファイル</Filter>
+    </ResourceCompile>
   </ItemGroup>
 </Project>
